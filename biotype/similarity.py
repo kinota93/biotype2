@@ -16,8 +16,8 @@ def score(pk1, pk2, delta=3, method='jaccard', rank=5):
         return sum(good_common)/float(n_union) 
 
     if method == 'weighted':
-        # weight = lambda r: math.exp(-1/r)
-        weight = lambda r: 1/float(r)
+        weight = lambda r: math.exp(-r/25)
+        # weight = lambda r: 1/float(r)
         good_common = [0.1+weight(rpk1[k])+weight(rpk2[k]) for k in common if good_peak(k)] 
         return sum(good_common)/len(union)
            
