@@ -1,6 +1,6 @@
-A = $(a[0],a[1],\cdots,a[n-1])$
+`A = (a[0],a[1],\cdots,a[n-1])`
 
-A bin is an open-closed interval ($b[i], b[i+1]$]
+A bin is an open-closed interval `(s, t]`
 
 ```python
 
