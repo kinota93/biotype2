@@ -22,20 +22,20 @@ def evaluate(bins):
     return gap, dev
 
 import itertools
-""" Partition into groups whose diameters are not exceeding delta --> Not Used. 
-numbers = [123, 124, 128, 160, 167, 213, 215, 230, 245, 255, 257, 400, 401, 402, 430]
-dict(enumerate(grouper(numbers, 15), 1))
-
-Output:
-{1: [123, 124, 128],
- 2: [160, 167],
- 3: [213, 215],
- 4: [230, 245],
- 5: [255, 257],
- 6: [400, 401, 402],
- 7: [430]}
-"""
 def grouper(iterable, delta=5):
+    """ Partition `iterable` into groups whose diameters are not exceeding delta --> Not Used. 
+    numbers = [123, 124, 128, 160, 167, 213, 215, 230, 245, 255, 257, 400, 401, 402, 430]
+    dict(enumerate(grouper(numbers, 15), 1))
+
+    Output:
+    {1: [123, 124, 128],
+     2: [160, 167],
+     3: [213, 215],
+     4: [230, 245],
+     5: [255, 257],
+     6: [400, 401, 402],
+     7: [430]}
+    """
     low = None
     group = []
     for item in iterable:
