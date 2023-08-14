@@ -48,7 +48,7 @@ def divide(sorted_uniques, delta=3):
     return bins 
 
 
-def linear_join(sorted_uniques, delta=5, epsilon=1):
+def linear_join(sorted_uniques, delta=5, epsilon=2):
     """algorithm 2 (linear_join): reccurisively join neighbors when span < epsilon
     input: a list of sortd unique m/z values
     ouput: list of m/z value lists, each m/z value list is a cluster 
@@ -77,7 +77,7 @@ def linear_join(sorted_uniques, delta=5, epsilon=1):
     return bins
 
 
-def best_join(sorted_uniques, delta, epsilon): 
+def best_join(sorted_uniques, delta=5, epsilon=2): 
     """algorithm 3 (best_join): reccurisively join nearest neighbors when span < epsilon
     input: a list of sortd unique m/z values
     ouput: list of m/z value lists, each m/z value list is a cluster 
