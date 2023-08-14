@@ -21,6 +21,35 @@ def evaluate(bins):
     dev = st.mean([st.pstdev(b) for b in bins])
     return gap, dev
 
+import itertools
+""" Partition into groups whose diameters are not exceeding delta --> Not Used. 
+numbers = [123, 124, 128, 160, 167, 213, 215, 230, 245, 255, 257, 400, 401, 402, 430]
+dict(enumerate(grouper(numbers, 15), 1))
+
+Output:
+{1: [123, 124, 128],
+ 2: [160, 167],
+ 3: [213, 215],
+ 4: [230, 245],
+ 5: [255, 257],
+ 6: [400, 401, 402],
+ 7: [430]}
+"""
+def grouper(iterable, delta=5):
+    low = None
+    group = []
+    for item in iterable:
+        if low is None or item - low <= delta:
+            group.append(item)
+            if low is None:
+                low = item
+        else:
+            yield group
+            group = [item]
+            low = item
+    if group:
+        yield group
+        
 def divide(sorted_uniques, delta=3):
     """algorithm 1 (divide): reccurisively divide at gap > delta, w.r.t. step=1,2,3,...
     input: a list of sortd unique m/z values
