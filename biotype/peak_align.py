@@ -11,7 +11,9 @@ def pairwise(iterable):
 
 
 def evaluate(bins):
-    """evaluate algorithms  (1) average variance, (2) average gap 
+    """evaluate algorithms  
+    (1) average variance, smaller is better
+    (2) average gap, larger is  better 
     """
     vmin = min([min(a) for a in bins])
     vmax = max([max(a) for a in bins])
