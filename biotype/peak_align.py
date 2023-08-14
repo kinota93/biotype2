@@ -1,5 +1,16 @@
 import statistics as st
 import heapq
+import itertools
+
+""""Peak Alignment
+ algorithm 1 (divide): divide list into clusters where gap > delta, w.r.t. step=1,2,...
+ algorithm 2 (linear_join): join leftmost neighbors to clusters if span < epsilon
+ algorithm 3 (best_join): join closest neighbors to clusters if span < epsilon
+Parameters
+ sorted_uniqies: a list of floats sorted in ascending order
+ delta: reject threshold, neighbors with a gap wider than delta will be divided into other cluster
+ epsilon: accept threshold, neighbors close enough within epsilon will be grouped together
+""""    
 
 def pairwise(iterable):
     """ generate pair of consequent items   
@@ -13,7 +24,7 @@ def pairwise(iterable):
 def evaluate(bins):
     """evaluate algorithms  
     (1) average variance, smaller is better
-    (2) average gap, larger is  better 
+    (2) average gap, larger is better 
     """
     vmin = min([min(a) for a in bins])
     vmax = max([max(a) for a in bins])
@@ -21,9 +32,8 @@ def evaluate(bins):
     dev = st.mean([st.pstdev(b) for b in bins])
     return gap, dev
 
-import itertools
 def grouper(iterable, delta=5):
-    """ Partition `iterable` into groups whose diameters are not exceeding delta --> Not Used. 
+    """ Partition `iterable` into groups whose diameters no larger than delta --> Not Used. 
     numbers = [123, 124, 128, 160, 167, 213, 215, 230, 245, 255, 257, 400, 401, 402, 430]
     dict(enumerate(grouper(numbers, 15), 1))
 
@@ -51,9 +61,10 @@ def grouper(iterable, delta=5):
         yield group
         
 def divide(sorted_uniques, delta=3):
-    """algorithm 1 (divide): reccurisively divide at gap > delta, w.r.t. step=1,2,3,...
-    input: a list of sortd unique m/z values
-    ouput: list of m/z value lists, each m/z value list is a cluster 
+    """algorithm 1 (divide): divide list into clusters where gap > delta, w.r.t. step=1, 2, ...
+    input: a list of sortd unique m/z values, [1000.230, 1001.172,1007.401,...]
+    ouput: list of m/z value lists, each m/z value list is a cluster, 
+       [[1000.230, 1001.172],[1007.401,...],...] 
     """
     bins =[sorted_uniques]
     done, step = False, 1
@@ -78,24 +89,24 @@ def divide(sorted_uniques, delta=3):
 
 
 def linear_join(sorted_uniques, delta=5, epsilon=2):
-    """algorithm 2 (linear_join): reccurisively join neighbors when span < epsilon
-    input: a list of sortd unique m/z values
-    ouput: list of m/z value lists, each m/z value list is a cluster 
+    """algorithm 2 (linear_join): join leftmost neighbors to clusters where diameter < epsilon
+    input: a list of sortd unique m/z values, [1000.230, 1001.172,1007.401,...]
+    ouput: list of m/z value lists, each m/z value list is a cluster, 
+       [[1000.230, 1001.172],[1007.401,...],...] 
     """
-    # sorted_uniques = sorted(list(set(data)))
     bins = [[v] for v in sorted_uniques]
     
-    for d in reversed(range(15)):
+    for d in reversed(range(11)):
         new_bins = []
-        i, e = 0, epsilon/2**d
+        i, e = 0, epsilon/2**d # epsilon x 1/1024,1/512, ..., 1/2, 1.0 
         while i < len(bins):
             if i == len(bins)-1:
                 new_bins += [bins[i]]
                 break
 
             a, b = bins[i], bins[i+1]
-            if max(b) - min(a) < e: # |span{a, b}|< e
-                new_bins += [a+b]
+            if max(b) - min(a) < e: # diameter(a, b)< e
+                new_bins += [a+b] 
                 i += 2
             else:
                 new_bins += [a]
@@ -108,16 +119,17 @@ def linear_join(sorted_uniques, delta=5, epsilon=2):
 
 def best_join(sorted_uniques, delta=5, epsilon=2): 
     """algorithm 3 (best_join): reccurisively join nearest neighbors when span < epsilon
-    input: a list of sortd unique m/z values
-    ouput: list of m/z value lists, each m/z value list is a cluster 
+    input: a list of sortd unique m/z values, [1000.230, 1001.172,1007.401,...]
+    ouput: list of m/z value lists, each m/z value list is a cluster, 
+       [[1000.230, 1001.172],[1007.401,...],...] 
     """
-    bins = [-1, len(sorted_uniques)-1]
-    for s, t in pairwise(bins): # divide bucket at gap > delta
+    bins = [-1, len(sorted_uniques)-1] # a bin is an open-closed interval
+    for s, t in pairwise(bins):  # (s,t] = [s+1,t]
         for i in range(s+1, t):
             if sorted_uniques [i+1] - sorted_uniques [i] > delta:
                 bins += [i]
                     
-    bins = sorted(list(set(bins)))
+    bins = sorted(list(set(bins))) # 1-step divided list
     my_bins = []
     for s, t in pairwise(bins): 
         new_bins = []
