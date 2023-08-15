@@ -3,13 +3,13 @@ import heapq
 import itertools
 
 """"Peak Alignment
- algorithm 1 (divide): divide list into clusters where gap > delta, w.r.t. step=1,2,...
- algorithm 2 (linear_join): join leftmost neighbors to clusters if span < epsilon
- algorithm 3 (best_join): join closest neighbors to clusters if span < epsilon
+ algorithm 1 (divide): divide list into clusters where gap > delta, repeat on step=1,2,...
+ algorithm 2 (linear_join): join leftmost neighbors to clusters when diameter < epsilon
+ algorithm 3 (best_join): join closest neighbors to clusters when diameter < epsilon
 Parameters
- sorted_uniqies: a list of floats sorted in ascending order
- delta: reject threshold, neighbors with a gap wider than delta will be divided into other cluster
- epsilon: accept threshold, neighbors close enough within epsilon will be grouped together
+ sorted_uniques: a list of floats sorted in ascending order
+ delta: reject threshold, neighbors with a gap wider than delta will be rejected to join a cluster
+ epsilon: accept threshold, neighbors close enough within epsilon will be accepted to a cluster
 """"    
 
 def pairwise(iterable):
@@ -89,7 +89,7 @@ def divide(sorted_uniques, delta=3):
 
 
 def linear_join(sorted_uniques, delta=5, epsilon=2):
-    """algorithm 2 (linear_join): join leftmost neighbors to clusters where diameter < epsilon
+    """algorithm 2 (linear_join): join leftmost neighbors to a cluster when diameter < epsilon
     input: a list of sortd unique m/z values, [1000.230, 1001.172,1007.401,...]
     ouput: list of m/z value lists, each m/z value list is a cluster, 
        [[1000.230, 1001.172],[1007.401,...],...] 
@@ -118,11 +118,13 @@ def linear_join(sorted_uniques, delta=5, epsilon=2):
 
 
 def best_join(sorted_uniques, delta=5, epsilon=2): 
-    """algorithm 3 (best_join): reccurisively join nearest neighbors when span < epsilon
-    input: a list of sortd unique m/z values, [1000.230, 1001.172,1007.401,...]
-    ouput: list of m/z value lists, each m/z value list is a cluster, 
+    """algorithm 3 (best_join): reccurisively join nearest neighbors when diameter < epsilon
+    input: a list of sortd unique m/z values, e.g., [1000.230, 1001.172,1007.401,...]
+    ouput: list of m/z value lists, each m/z value list is a cluster, e.g.,
        [[1000.230, 1001.172],[1007.401,...],...] 
     """
+    # 1. separate values to groups with gap wider than delta
+    
     bins = [-1, len(sorted_uniques)-1] # a bin is an open-closed interval
     for s, t in pairwise(bins):  # (s,t] = [s+1,t]
         for i in range(s+1, t):
@@ -130,6 +132,9 @@ def best_join(sorted_uniques, delta=5, epsilon=2):
                 bins += [i]
                     
     bins = sorted(list(set(bins))) # 1-step divided list
+    
+    #2. for each group, starting with the nearest single values, join neighbors to cluster
+    
     my_bins = []
     for s, t in pairwise(bins): 
         new_bins = []
