@@ -14,7 +14,7 @@ See [this answer](https://stackoverflow.com/a/35151947/1060350) for an example h
 1. Allan Grønlund, Kasper Green Larsen, Alexander Mathiasen, Jesper Sindahl Nielsen:
 Fast Exact k-Means, k-Medians and Bregman Divergence Clustering in 1D.
 https://arxiv.org/pdf/1701.07204.pdf
-1. Wang H, Song M. Ckmeans.1d.dp: Optimal k-means Clustering in One Dimension by Dynamic Programming. R J. 2011 Dec;3(2):29-33. PMID: 27942416; PMCID: PMC5148156.
+1. Wang H, Song M. Ckmeans.1d.dp: Optimal k-means Clustering in One Dimension by Dynamic Programming. R J. 2011 Dec;3(2):29-33. PMID: 27942416; PMCID: PMC5148156. https://pubmed.ncbi.nlm.nih.gov/27942416/
 1. Anony Mousse, 1D Number Array Clustering, Stackoverflow, https://stackoverflow.com/questions/11513484/1d-number-array-clustering
 1. Chris Moffitt, Finding Natural Breaks in Data with the Fisher-Jenks Algorithm, https://pbpython.com/natural-breaks.html
 1. Fast Fisher-Jenks breaks for Python, https://github.com/mthh/jenkspy
