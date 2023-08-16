@@ -11,10 +11,8 @@ With KDE, it again becomes obvious that 1-dimensional data is much more well beh
 See [this answer](https://stackoverflow.com/a/35151947/1060350) for an example how to do this in Python (green markers are the cluster modes; red markers a points where the data is cut; the y axis is a log-likelihood of the density):
 
 ## References
-[1] Allan Grønlund, Kasper Green Larsen, Alexander Mathiasen, Jesper Sindahl Nielsen:
+1. Allan Grønlund, Kasper Green Larsen, Alexander Mathiasen, Jesper Sindahl Nielsen:
 Fast Exact k-Means, k-Medians and Bregman Divergence Clustering in 1D.
 https://arxiv.org/pdf/1701.07204.pdf
-
-[2] Wang H, Song M. Ckmeans.1d.dp: Optimal k-means Clustering in One Dimension by Dynamic Programming. R J. 2011 Dec;3(2):29-33. PMID: 27942416; PMCID: PMC5148156.
-
-[3] Ref. Stackoverflow,https://stackoverflow.com/questions/11513484/1d-number-array-clustering
+1. Wang H, Song M. Ckmeans.1d.dp: Optimal k-means Clustering in One Dimension by Dynamic Programming. R J. 2011 Dec;3(2):29-33. PMID: 27942416; PMCID: PMC5148156.
+1. Ref. Stackoverflow,https://stackoverflow.com/questions/11513484/1d-number-array-clustering
